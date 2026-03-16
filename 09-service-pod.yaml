@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: pod-demo-service
+   labels:
+     name: frontend
+     environment: development
+     project: roboshop
+     component: frontend
+
+spec:
+  conatiers:
+   - name: nginx
+     image: nginx
+     
