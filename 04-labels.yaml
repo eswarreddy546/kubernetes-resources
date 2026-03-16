@@ -1,0 +1,12 @@
+apiVerion: v1
+kind: pod
+Metadata:
+    name: frontend-labels
+    labels:
+      name: frontend
+      namespace: roboshop
+      environment: development
+      project: roboshop
+      component: frontend
+  
+  
