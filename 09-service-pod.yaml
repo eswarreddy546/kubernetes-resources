@@ -3,10 +3,9 @@ kind: Pod
 metadata:
    name: pod-demo-service
    labels:
-     name: frontend
-     environment: development
-     project: roboshop
-     component: frontend
+     name: roboshop
+     project: frontend
+     environment: dev
 
 spec:
   containers:
