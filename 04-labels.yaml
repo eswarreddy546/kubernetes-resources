@@ -1,12 +1,15 @@
 apiVersion: v1
-kind: pod
-Metadata:
-    name: frontend-labels
-    labels:
-      name: frontend
-      namespace: roboshop
-      environment: development
-      project: roboshop
-      component: frontend
-  
-  
+kind: Pod
+metadata:
+  name: frontend-labels
+  namespace: roboshop
+  labels:
+    name: frontend
+    environment: development
+    project: roboshop
+    component: frontend
+
+spec:
+  containers:
+  - name: nginx
+    image: nginx
