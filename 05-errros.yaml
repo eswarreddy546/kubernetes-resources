@@ -3,6 +3,7 @@ Kind : Pod
 metadata:
   name: errors
   labels:
+    namespace: roboshop
     name: labels-erros
     component: error
     project: dev
