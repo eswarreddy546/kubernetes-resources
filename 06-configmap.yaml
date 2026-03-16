@@ -1,11 +1,13 @@
 apiVersion: v1
-kind: Pod
+kind: ConfigMap
 metadata:
   name: configmap
+  namespace: roboshop
   labels:
     name: configmap
     component: frontend
     environment: dev
-  data:
-   course: "devops"
-   feege: "120"
+
+data:
+  course: "devops"
+  fee: "120"
