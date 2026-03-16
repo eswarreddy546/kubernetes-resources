@@ -9,7 +9,6 @@ metadata:
      component: frontend
 
 spec:
-  conatiers:
+  containers:
    - name: nginx
      image: nginx
-     
