@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap
+  labels:
+    name: configmap
+    component: frontend
+    environment: dev
+  data:
+   course: "devops"
+   feege: "120"
