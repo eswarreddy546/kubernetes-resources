@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer
+
+spec:
+  type: LoadBalancer
+  selector:
+    name: roboshop
+    project: frontend
+    environment: dev
+    new: nodeport
+    latest: traffic
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 3999
