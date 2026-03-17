@@ -12,7 +12,7 @@ spec:
   storageClassName: manual
   csi:
     driver: efs.csi.aws.com
-    volumeHandle: fs-0abc123456789xyz   # 👈 EFS ID
+    volumeHandle: fs-0c5ae73f7261404a8   # 👈 EFS ID
 
 
 ---
