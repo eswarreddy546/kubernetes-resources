@@ -15,7 +15,7 @@ spec:
   storageClassName: ebs-sc   # 👈 must match StorageClass
   resources:
     requests:
-      storage: 5Gi
+      storage: 15Gi
 
 ---
 
