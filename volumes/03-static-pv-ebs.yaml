@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   namespace: roboshop
+  project: frontend
   name: ebs-static-pv
 spec:
   capacity:
@@ -22,6 +23,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: roboshop
+  project: frontend
   name: ebs-static-pv # this is name refer as the above pv name here
 spec:
   accessModes:
@@ -37,6 +39,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   namespace: roboshop
+  project: frontend
   name: ebs-pod
 spec:
   containers:
@@ -52,3 +55,26 @@ spec:
     - name: ebs-volume
       persistentVolumeClaim:
         claimName: ebs-static-pv
+
+---
+# load balancer
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: roboshop
+  project: frontend
+
+
+spec:
+  type: LoadBalancer
+  selector:
+    name: roboshop
+    project: frontend
+    
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30999
