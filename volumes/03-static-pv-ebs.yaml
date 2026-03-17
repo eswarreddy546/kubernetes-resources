@@ -14,3 +14,19 @@ spec:
   awsElasticBlockStore:
     volumeID: vol-0032626534bc9574c   # 👈 your EBS volume ID
     fsType: ext4
+
+---
+#pvc
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: roboshop
+  name: ebs-static-pv # this is name refer as the above pv name here
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual   # 👈 MUST match PV
+  resources:
+    requests:
+      storage: 15Gi           # 👈 MUST match PV
