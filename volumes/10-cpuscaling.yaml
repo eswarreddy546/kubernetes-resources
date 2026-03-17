@@ -1,0 +1,70 @@
+# ---------------------------
+# 🔹 Deployment (CPU config required for HPA)
+# ---------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-hpa
+  namespace: roboshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-hpa
+  template:
+    metadata:
+      labels:
+        app: nginx-hpa
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"   # 👈 required for HPA
+            limits:
+              cpu: "200m"
+
+---
+
+# ---------------------------
+# 🔹 Service (to access pod internally)
+# ---------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-hpa
+  namespace: roboshop
+spec:
+  selector:
+    app: nginx-hpa
+  ports:
+    - port: 80
+      targetPort: 80
+
+---
+
+# ---------------------------
+# 🔹 HPA (CPU based auto scaling)
+# ---------------------------
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+  namespace: roboshop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-hpa
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50   # 👈 CPU threshold
