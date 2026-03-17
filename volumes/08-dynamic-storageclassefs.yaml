@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-dynamic-pvc
+  namespace: roboshop
+  labels:
+    project: frontend
+spec:
+  accessModes:
+    - ReadWriteMany   # 👈 EFS supports RWX
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: efs-dynamic-pod
+  namespace: roboshop
+  labels:
+    project: frontend
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: efs-volume
+
+  volumes:
+    - name: efs-volume
+      persistentVolumeClaim:
+        claimName: efs-dynamic-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: efs-dynamic-svc
+  namespace: roboshop
+spec:
+  type: LoadBalancer
+  selector:
+    project: frontend
+  ports:
+    - port: 80
+      targetPort: 80
