@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-sc
+provisioner: ebs.csi.aws.com   # 👈 EBS CSI driver
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3                    # EBS type (gp2/gp3)
+  fsType: ext4

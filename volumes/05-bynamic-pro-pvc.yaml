@@ -1,0 +1,61 @@
+
+# ---------------------------
+# 🔹 PVC (Dynamic Provisioning)
+# ---------------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-dynamic-pvc
+  namespace: roboshop
+  labels:
+    project: frontend
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ebs-sc   # 👈 must match StorageClass
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+
+# ---------------------------
+# 🔹 Pod (Mount PVC)
+# ---------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ebs-dynamic-pod
+  namespace: roboshop
+  labels:
+    project: frontend   # 👈 required for Service
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: ebs-volume
+
+  volumes:
+    - name: ebs-volume
+      persistentVolumeClaim:
+        claimName: ebs-dynamic-pvc   # 👈 PVC name
+
+---
+
+# ---------------------------
+# 🔹 Service (LoadBalancer)
+# ---------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: ebs-dynamic-svc
+  namespace: roboshop
+spec:
+  type: LoadBalancer
+  selector:
+    project: frontend   # 👈 matches pod label
+  ports:
+    - port: 80
+      targetPort: 80
