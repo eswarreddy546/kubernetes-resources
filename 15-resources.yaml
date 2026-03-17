@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resource-demo-pod
+  namespace: roboshop
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      resources:
+        requests:
+          cpu: "100m"      # 👈 minimum CPU required
+          memory: "128Mi"  # 👈 minimum memory required
+        limits:
+          cpu: "200m"      # 👈 max CPU allowed
+          memory: "256Mi"  # 👈 max memory allowed
