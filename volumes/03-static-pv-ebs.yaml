@@ -49,4 +49,4 @@ spec:
   volumes:
     - name: ebs-volume
       persistentVolumeClaim:
-        claimName: ebs-static-pvc
+        claimName: ebs-static-pv
