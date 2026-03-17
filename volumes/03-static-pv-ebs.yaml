@@ -30,3 +30,23 @@ spec:
   resources:
     requests:
       storage: 15Gi           # 👈 MUST match PV
+
+---
+# creating pod for mount to the pvc
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: roboshop
+  name: ebs-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: ebs-volume
+
+  volumes:
+    - name: ebs-volume
+      persistentVolumeClaim:
+        claimName: ebs-static-pvc
