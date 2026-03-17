@@ -1,65 +1,77 @@
+# ---------------------------
+# 🔹 Persistent Volume (PV)
+# ---------------------------
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  namespace: roboshop
-  project: frontend
-  name: ebs-static-pv
+  name: ebs-static-pv   # PV name (cluster-level resource, no namespace)
+  labels:
+    project: frontend   # label (correct way, not "project:" directly)
 spec:
   capacity:
     storage: 15Gi
   volumeMode: Filesystem
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce     # EBS supports only RWO
   persistentVolumeReclaimPolicy: Retain
   storageClassName: manual
   awsElasticBlockStore:
-    volumeID: vol-0032626534bc9574c   # 👈 your EBS volume ID
+    volumeID: vol-0032626534bc9574c   # your EBS volume (must be same AZ)
     fsType: ext4
 
 ---
-#pvc
 
+# ---------------------------
+# 🔹 Persistent Volume Claim (PVC)
+# ---------------------------
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: roboshop
-  project: frontend
-  name: ebs-static-pv # this is name refer as the above pv name here
+  name: ebs-static-pv   # keeping same name as you requested
+  labels:
+    project: frontend
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: manual   # 👈 MUST match PV
+  storageClassName: manual   # must match PV
   resources:
     requests:
-      storage: 15Gi           # 👈 MUST match PV
+      storage: 15Gi          # must match PV size
 
 ---
-# creating pod for mount to the pvc
+
+# ---------------------------
+# 🔹 Pod (Mount PVC)
+# ---------------------------
 apiVersion: v1
 kind: Pod
 metadata:
   namespace: roboshop
   name: ebs-pod
   labels:
-    project: frontend   # 👈 ADD THIS ONLY
+    project: frontend        # required for Service selector
 spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1b   # ensures same AZ as EBS
+
   containers:
     - name: nginx
       image: nginx
       volumeMounts:
-        - mountPath: /usr/share/nginx/html
+        - mountPath: /usr/share/nginx/html   # path inside container
           name: ebs-volume
-  nodeSelector:
-    topology.kubernetes.io/zone: us-east-1b
 
   volumes:
     - name: ebs-volume
       persistentVolumeClaim:
-        claimName: ebs-static-pv
+        claimName: ebs-static-pv   # PVC name
 
 ---
-# load balancer
 
+# ---------------------------
+# 🔹 Service (LoadBalancer)
+# ---------------------------
 apiVersion: v1
 kind: Service
 metadata:
@@ -68,7 +80,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    project: frontend
+    project: frontend   # matches pod label
   ports:
     - port: 80
       targetPort: 80
