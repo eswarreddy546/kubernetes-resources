@@ -62,12 +62,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: ebs-static-pv
   namespace: roboshop
 spec:
   type: LoadBalancer
   selector:
-    app: nginx
     project: frontend
   ports:
     - port: 80
