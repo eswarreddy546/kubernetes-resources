@@ -45,6 +45,8 @@ spec:
       volumeMounts:
         - mountPath: /usr/share/nginx/html
           name: ebs-volume
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1b
 
   volumes:
     - name: ebs-volume
