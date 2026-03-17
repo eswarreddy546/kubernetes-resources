@@ -39,8 +39,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   namespace: roboshop
-  project: frontend
   name: ebs-pod
+  labels:
+    project: frontend   # 👈 ADD THIS ONLY
 spec:
   containers:
     - name: nginx
