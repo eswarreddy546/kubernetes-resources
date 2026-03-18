@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: roboshop
+  name: avoid-zone-pod   # Pod name
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+  affinity:
+    nodeAffinity:
+
+      # 🔴 REQUIRED (strict rule)
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone   # 👈 zone label
+            operator: NotIn                    # 👈 ee value unna nodes avoid cheyyali
+            values:
+            - us-east-1d                      # 👈 ee zone lo run avvakudadhu
