@@ -18,7 +18,7 @@ spec:
           - key: topology.kubernetes.io/zone   # 👈 NEW label (zone)
             operator: In                       # 👈 OR condition
             values:
-            - us-east-1c                       # 👈 ee zone lo unna node lo ne run avvali
+            - us-east-1d                      # 👈 ee zone lo unna node lo ne run avvali
 
       # 🟡 PREFERRED (optional - best choice)
       preferredDuringSchedulingIgnoredDuringExecution:
