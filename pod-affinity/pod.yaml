@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  namespace: roboshop
   name: frontend-pod
   labels:
     app: frontend   # 👈 important label

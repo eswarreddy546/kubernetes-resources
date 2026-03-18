@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  namespace: roboshop
   name: backend-pod
   labels:
     app: backend
