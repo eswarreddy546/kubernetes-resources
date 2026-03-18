@@ -1,9 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: roboshop
   name: toleration-pod
 spec:
+  nodeSelector:
+    nodeip: 192.168.15.2   # 👈 IP indirect ga use chestunnam
+
   containers:
   - name: nginx
     image: nginx
