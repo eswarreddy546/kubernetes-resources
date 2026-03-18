@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: roboshop
+  name: affinity-pod   # Pod name
+spec:
+  containers:
+  - name: nginx        # Container name
+    image: nginx       # Image
+
+  affinity:
+    nodeAffinity:
+
+      # 🔴 REQUIRED (must match - compulsory condition)
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: failure-domain.beta.kubernetes.io/zone   # 👈 Node label name (zone)
+            operator: In                                 # 👈 OR condition
+            values:
+            - us-east-1c                                 # 👈 Pod only ee zone lo unna node lo run avvali
+
+      # 🟡 PREFERRED (optional - try to match)
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1                                        # 👈 priority (higher = more preference)
+        preference:
+          matchExpressions:
+          - key: beta.kubernetes.io/instance-type        # 👈 Node label name (instance type)
+            operator: In                                 # 👈 match condition
+            values:
+            - t2.medium                                  # 👈 ee type node unte better
