@@ -18,4 +18,4 @@ spec:
           - key: topology.kubernetes.io/zone   # 👈 zone label
             operator: NotIn                    # 👈 ee value unna nodes avoid cheyyali
             values:
-            - us-east-1d                      # 👈 ee zone lo run avvakudadhu
+            - us-east-1c                  # 👈 ee zone lo run avvakudadhu
