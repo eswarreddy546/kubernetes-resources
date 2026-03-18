@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-pod
+  labels:
+    app: backend
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+  affinity:
+    podAffinity:
+
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app              # 👈 label name
+            operator: In
+            values:
+            - frontend            # 👈 existing pod label
+        topologyKey: "kubernetes.io/hostname"  # 👈 same node
