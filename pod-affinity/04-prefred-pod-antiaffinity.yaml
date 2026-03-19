@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx-demo        # Same label for all pods
+        app: nginx-preferred-demo        # Same label for all pods
 
     spec:
       containers:
@@ -30,7 +30,7 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - nginx-demo   # Same app pods identify
+                  - nginx-preferred-demo   # Same app pods identify
               topologyKey: "kubernetes.io/hostname"
               # Meaning:
               # Try to place pods on different nodes
