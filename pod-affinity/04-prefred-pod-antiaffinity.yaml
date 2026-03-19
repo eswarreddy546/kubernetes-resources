@@ -4,7 +4,7 @@ metadata:
   name: nginx-preferred-demo   # Deployment name
 
 spec:
-  replicas: 6                  # Total 6 pods kavali
+  replicas: 3                 # Total 6 pods kavali
 
   selector:
     matchLabels:
