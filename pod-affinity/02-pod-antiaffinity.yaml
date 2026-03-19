@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-anti-affinity   # Deployment name
+spec:
+  replicas: 3                 # Total 3 pods create avuthayi
+  selector:
+    matchLabels:
+      app: nginx-demo         # Pods identify cheyyadaniki label
+  template:
+    metadata:
+      labels:
+        app: nginx-demo       # Same label pods ki apply avuthundi
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80   # Web server port
+
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - nginx-demo  # Same label unna pods ni identify chesthundi
+            topologyKey: "kubernetes.io/hostname"  
+            # Rule: same node (hostname) lo same label unna pods undakudadhu
+
+
+# #             output:
+# # +-----------+     +-----------+     +-----------+
+# # | Server-1  |     | Server-2  |     | Server-3  |
+# # |-----------|     |-----------|     |-----------|
+# # | Pod-1     |     | Pod-2     |     | Pod-3     |
+# # | nginx     |     | nginx     |     | nginx     |
+# # +-----------+     +-----------+     +-----------+
+
+
+
+# 🎯 Step-by-Step Workflow (Simple ga)
+# 🧩 Step 1: Deployment create chesthav
+
+# 👉 replicas: 3
+# ➡️ Kubernetes 3 pods create cheyyali ani decide avuthundi
+
+# 🧠 Step 2: Scheduler work start chesthadi
+
+# Scheduler ki rule ichav 👇
+
+# 👉 “Same label (app=nginx-demo) unna pods
+# 👉 oka node lo kalisi undakudadhu”
+
+# ⚙️ Step 3: Pod Placement (Real Flow)
+# 🔹 Pod-1
+
+# 👉 Cluster lo first pod
+# 👉 Anti-affinity check avasaram ledu (inka vere pods levu)
+
+# ✅ So:
+
+# Pod-1 → Server-1
+# 🔹 Pod-2
+
+# 👉 Ippudu scheduler check chesthadi:
+
+# ❓ “Already nginx-demo pod ekkada undi?”
+# 👉 Server-1 lo undi
+
+# ❌ So Pod-2 akkadiki velladu
+
+# ✅ Next node:
+
+# Pod-2 → Server-2
+# 🔹 Pod-3
+
+# 👉 Again check chesthadi:
+
+# Server-1 ❌ (already pod undi)
+
+# Server-2 ❌ (already pod undi)
+
+# ✅ Only option:
+
+# Pod-3 → Server-3
+# 🖼️ Final Visualization (Clear ga)
+# +-----------+     +-----------+     +-----------+
+# | Server-1  |     | Server-2  |     | Server-3  |
+# |-----------|     |-----------|     |-----------|
+# | Pod-1     |     | Pod-2     |     | Pod-3     |
+# | nginx     |     | nginx     |     | nginx     |
+# +-----------+     +-----------+     +-----------+
+
+# 🔥 Exactly nuvvu adigindhi ide
+
+# 🧠 Internal Logic (Important mama)
+
+# 👉 Kubernetes check chesthadi:
+
+# For each new pod:
+#   → existing pods ni check chesthadi
+#   → same label unte avoid that node
+#   → free node choose chesthadi
+# ⚠️ Edge Case (Very Important)
+
+# 👉 Suppose:
+
+# Only 2 nodes unte
+
+# 3 pods create chesthe
+
+# 👉 Result:
+
+# Pod-1 → Node-1
+# Pod-2 → Node-2
+# Pod-3 → ❌ Pending
+
+# 🔥 Enduku?
+# ➡️ Rule strict (requiredDuringScheduling)
+
+# 😎 Real-Time Analogy
+
+# 👉 Imagine:
+
+# 3 friends (pods)
+
+# 3 rooms (nodes)
+
+# Rule:
+# 👉 “Oka room lo okka friend matrame undali”
+
+# ➡️ So each friend separate room lo untadu
+
+# 💥 One-Line Summary
+
+# 👉 “Scheduler ensures pods with same label are placed on different nodes using anti-affini
