@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-anti-affinity   # Deployment name
+spec:
+  replicas: 6                # Total 3 pods create avuthayi
+  selector:
+    matchLabels:
+      app: nginx-demo         # Pods identify cheyyadaniki label
+  template:
+    metadata:
+      labels:
+        app: nginx-demo       # Same label pods ki apply avuthundi
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80   # Web server port
+
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - nginx-demo  # Same label unna pods ni identify chesthundi
+            topologyKey: "kubernetes.io/hostname"  
+            # Rule: same node (hostname) lo same label unna pods undakudadhu
