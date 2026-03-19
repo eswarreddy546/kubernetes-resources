@@ -1,0 +1,5 @@
+apiVersion: v2
+name: nginx # chart name 
+version: 1.0.0 #simple chat version
+description: this is description for the chat
+appVersion: latest # application version
