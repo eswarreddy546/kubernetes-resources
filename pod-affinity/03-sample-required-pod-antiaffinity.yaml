@@ -6,11 +6,11 @@ spec:
   replicas: 6                # Total 3 pods create avuthayi
   selector:
     matchLabels:
-      app: nginx-demo         # Pods identify cheyyadaniki label
+      app: nginx-demos        # Pods identify cheyyadaniki label
   template:
     metadata:
       labels:
-        app: nginx-demo       # Same label pods ki apply avuthundi
+        app: nginx-demos       # Same label pods ki apply avuthundi
     spec:
       containers:
       - name: nginx
@@ -26,7 +26,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - nginx-demo  # Same label unna pods ni identify chesthundi
+                - nginx-demos  # Same label unna pods ni identify chesthundi
             topologyKey: "kubernetes.io/hostname"  
             # Rule: same node (hostname) lo same label unna pods undakudadhu
 # final output 3 pods sucessfull and remining 3 pods are pending ,because this is required
