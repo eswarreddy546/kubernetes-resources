@@ -1,4 +1,4 @@
 deployment:
  replica: 3
- imageVersion: 
-  Stable: 1.28.2
+ imageVersion: latest
+  
