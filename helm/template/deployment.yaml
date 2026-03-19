@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment   # Deployment name
+  name: helm-demo   # Deployment name
 
 spec:
   replicas: {{.Values.deployment.replica}}             # 3 pods kavali
 
   selector:
     matchLabels:
-      app: nginx-demo      # Deployment identifies pods
+      app: helm-demo      # Deployment identifies pods
 
   template:
     metadata:
       labels:
-        app: nginx-demo    # Pod label (must match selector)
+        app: helm-demo    # Pod label (must match selector)
 
     spec:
       containers:
       - name: nginx
-        image: nginx
+        image: {{.Values.deployment.imageVersion}}
         ports:
         - containerPort: 80
