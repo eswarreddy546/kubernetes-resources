@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-preferred-demo   # Deployment name
+spec:
+  replicas: 6                  # Total 6 pods kavali
+  selector:
+    matchLabels:
+      app: nginx-demo
+
+  template:
+    metadata:
+      labels:
+        app: nginx-demo        # Same label for all pods
+
+    spec:
+      containers:
+      - name: web
+        image: nginx
+        ports:
+        - containerPort: 80    # Web server (nginx)
+
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100        # High priority preference
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - nginx-demo   # Same app pods identify
+              topologyKey: "kubernetes.io/hostname"
+              # Meaning:
+              # Try to place pods on different nodes
+              # But if not possible → allow same node (no pending pods)

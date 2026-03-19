@@ -29,3 +29,5 @@ spec:
                 - nginx-demo  # Same label unna pods ni identify chesthundi
             topologyKey: "kubernetes.io/hostname"  
             # Rule: same node (hostname) lo same label unna pods undakudadhu
+# final output 3 pods sucessfull and remining 3 pods are pending ,because this is required
+# another way is total 6 pods 3 nodes all adjust good way because prefred 
