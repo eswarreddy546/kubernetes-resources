@@ -2,36 +2,38 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-preferred-demo   # Deployment name
+
 spec:
   replicas: 6                  # Total 6 pods kavali
+
   selector:
     matchLabels:
-      app: nginx-demo
+      app: nginx-demo          # 🔴 MUST match template labels
 
   template:
     metadata:
       labels:
-        app: nginx-preferred-demo        # Same label for all pods
+        app: nginx-demo        # 🔴 SAME as selector (important)
 
     spec:
       containers:
       - name: web
         image: nginx
         ports:
-        - containerPort: 80    # Web server (nginx)
+        - containerPort: 80    # nginx web server
 
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100        # High priority preference
+          - weight: 100        # High priority (try to spread)
             podAffinityTerm:
               labelSelector:
                 matchExpressions:
                 - key: app
                   operator: In
                   values:
-                  - nginx-preferred-demo   # Same app pods identify
+                  - nginx-demo   # 🔴 Same label used here
               topologyKey: "kubernetes.io/hostname"
               # Meaning:
               # Try to place pods on different nodes
-              # But if not possible → allow same node (no pending pods)
+              # If not possible → allow same node (no pending pods)
