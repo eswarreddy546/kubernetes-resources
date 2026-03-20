@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aws-cli-pod
+  namespace: roboshop
+spec:
+  serviceAccountName: my-service-account   # 🔥 IRSA attach here
+  containers:
+  - name: aws-cli-container
+    image: amazon/aws-cli
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]
