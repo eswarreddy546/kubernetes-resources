@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::273354633043:role/eksctl-roboshop-dev-eks-nodegroup--NodeInstanceRole-f3y4irCg6asu
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+
+  mapUsers: |
+    - userarn: arn:aws:iam::273354633043:user/eswar-new-eks-readonly
+      username: eswar-new-eks-readonly-admin
+      groups:
+        - roboshop-readonly-group
