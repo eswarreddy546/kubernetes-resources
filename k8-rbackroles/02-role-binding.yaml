@@ -1,13 +1,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: read-pods-binding
+  name: roboshop-trainee
   namespace: roboshop
 subjects:
-- kind: Group   # 🔥 IMPORTANT CHANGE
-  name: roboshop-readonly-group
+# You can specify more than one "subject"
+- kind: User
+  name: eswar-new-eks-readonly # "name" is case sensitive
   apiGroup: rbac.authorization.k8s.io
 roleRef:
-  kind: Role
-  name: pod-reader
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: roboshop-trainee # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io

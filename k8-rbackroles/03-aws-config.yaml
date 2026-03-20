@@ -1,22 +1,20 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
 data:
   mapRoles: |
     - rolearn: arn:aws:iam::273354633043:role/eksctl-roboshop-dev-eks-nodegroup--NodeInstanceRole-f3y4irCg6asu
-      groups:
-      - system:bootstrappers
-      - system:nodes                                     #aws cluster create chesina person admin acess this is 
       username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
 
   mapUsers: |
     - userarn: arn:aws:iam::273354633043:user/eswar-new-eks-readonly
-     username: eswar-new-eks-readonly
-    groups:
-      - roboshop-readonly-group   # ✅ This should match RoleBinding
-kind: ConfigMap
-metadata:
-  creationTimestamp: "2026-03-20T03:55:18Z"
-  name: aws-auth
-  namespace: roboshop
-  resourceVersion: "1187"
-  uid: 1995704a-ceaa-4dd7-b873-a49638fea99b
+      username: eswar-new-eks-readonly
+      groups:
+        - roboshop-readonly-group
 
+  
