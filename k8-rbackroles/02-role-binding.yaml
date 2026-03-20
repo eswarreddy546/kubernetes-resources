@@ -4,10 +4,10 @@ metadata:
   name: read-pods-binding
   namespace: roboshop
 subjects:
-- kind: User
-  name: eswar-new-eks-readonly # Name of the user (case-sensitive)
+- kind: Group   # 🔥 IMPORTANT CHANGE
+  name: roboshop-readonly-group
   apiGroup: rbac.authorization.k8s.io
 roleRef:
-  kind: Role # Must be Role or ClusterRole
-  name: cluster-reader # Must match the name of the Role you created
+  kind: Role
+  name: pod-reader
   apiGroup: rbac.authorization.k8s.io

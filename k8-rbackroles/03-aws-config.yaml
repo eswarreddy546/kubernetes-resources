@@ -7,11 +7,11 @@ data:
       - system:nodes                                     #aws cluster create chesina person admin acess this is 
       username: system:node:{{EC2PrivateDNSName}}
 
-    mapUsers: |
-    - groups:
-      - cluster-reader
-      userarn: arn:aws:iam::273354633043:user/eswar-new-eks-readonly
-      username: eswar-new-eks-readonly
+  mapUsers: |
+    - userarn: arn:aws:iam::273354633043:user/eswar-new-eks-readonly
+     username: eswar-new-eks-readonly
+    groups:
+      - roboshop-readonly-group   # ✅ This should match RoleBinding
 kind: ConfigMap
 metadata:
   creationTimestamp: "2026-03-20T03:55:18Z"

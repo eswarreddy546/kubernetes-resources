@@ -1,10 +1,9 @@
-# pod-reader-role.yaml
-apiVersion: rbac.authorization.k8s.io/v1 # Specifies the API group and version
-kind: Role                                # Declares this object as a Role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-  name: cluster-reader                        # Name of the Role
-  namespace: roboshop                # The namespace where this Role is valid
+  name: pod-reader
+  namespace: roboshop
 rules:
-- apiGroups: [""]                         # The API group for core resources (like pods). "" indicates the core API group.
-  resources: ["pods"]                     # The resource type this Role applies to
-  verbs: ["get", "watch", "list"]         # The actions (verbs) allowed on the specified resources
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
