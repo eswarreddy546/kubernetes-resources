@@ -33,6 +33,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: roboshop
   name: app1
 spec:
   selector:
@@ -47,6 +48,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  namespace: roboshop
   name: app1
   annotations:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
