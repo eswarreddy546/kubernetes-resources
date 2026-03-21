@@ -1,9 +1,0 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  namespace: roboshop   # ekkada apply avuthundo
-  name: pod-reader     # role name
-rules:
-- apiGroups: [""]      # "" ante core API (pods, services)
-  resources: ["pods"]  # ye resource mida permissions
-  verbs: ["get", "list", "watch"]  # em cheyyachu

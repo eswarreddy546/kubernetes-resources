@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: aws-auth              # MUST 🔥
-  namespace: kube-system      # MUST 🔥 (not roboshop ❌)
+  name: aws-auth
+  namespace: kube-system
 
 data:
   mapRoles: |
@@ -16,4 +16,4 @@ data:
     - userarn: arn:aws:iam::273354633043:user/todayuser
       username: todayuser
       groups:
-        - system:masters
+        - readonly-group   # 👈 custom group
